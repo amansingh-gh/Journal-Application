@@ -20,7 +20,6 @@ public class JournalEntryController {
     @Autowired
     private JournalEntryService journalEntryService;
 
-
     @GetMapping
     public ResponseEntity<?> getAll() {
         List<JournalEntry> all = journalEntryService.getAll();
@@ -51,11 +50,13 @@ public class JournalEntryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
     @DeleteMapping("id/{myId}")
     public ResponseEntity<?> deleteJournalById(@PathVariable ObjectId myId) {
         journalEntryService.deleteById(myId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 
     @PutMapping("id/{myId}")
     public ResponseEntity<?> updateJournalEntry(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry) {
