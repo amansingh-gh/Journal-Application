@@ -4,6 +4,9 @@ package net.singh.journalApp.controller;
 import net.singh.journalApp.entity.User;
 import net.singh.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +28,14 @@ public class UserController {
         userService.saveEntry(user);
     }
 
-//    @PutMapping
-
+    @PutMapping("/{username}")
+    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String username) {
+        User uesrInDB = userService.findByUsername(username);
+        if (uesrInDB != null) {
+            uesrInDB.setUsername(user.getUsername());
+            uesrInDB.setPassword(user.getPassword());
+            userService.saveEntry(uesrInDB);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
