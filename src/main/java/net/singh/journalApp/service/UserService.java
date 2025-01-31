@@ -1,6 +1,5 @@
 package net.singh.journalApp.service;
 
-import lombok.extern.slf4j.Slf4j;
 import net.singh.journalApp.entity.User;
 import net.singh.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Component
 public class UserService {
 
