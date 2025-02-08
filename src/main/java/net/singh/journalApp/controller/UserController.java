@@ -1,19 +1,17 @@
 package net.singh.journalApp.controller;
 
 
-import lombok.extern.slf4j.Slf4j;
 import net.singh.journalApp.entity.User;
-import net.singh.journalApp.service.JournalEntryService;
 import net.singh.journalApp.service.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -26,25 +24,15 @@ public class UserController {
         return userService.getAll();
     }
 
-    @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) {
-        try {
-            userService.saveEntry(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            log.error("e: ", e);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    @PutMapping("/{username}")
-    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String username) {
-        User uesrInDB = userService.findByUsername(username);
-        if (uesrInDB != null) {
-            uesrInDB.setUsername(user.getUsername());
-            uesrInDB.setPassword(user.getPassword());
-            userService.saveEntry(uesrInDB);
-        }
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User userInDB = userService.findByUsername(username);
+        userInDB.setUsername(user.getUsername());
+        userInDB.setPassword(user.getPassword());
+        userService.saveEntry(userInDB);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -54,4 +42,24 @@ public class UserController {
 //        userService.deleteById(id);
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
+
+    //    @DeleteMapping
+//    public ResponseEntity<?> deleteUserById() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        userRepository.deleteByUserName(authentication.getName());
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
+//    @DeleteMapping
+//    public ResponseEntity<?> deleteByUserName() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        userService.deleteByUserName(authentication.getName());
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> deleteByUserName2(@PathVariable String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        userService.deleteByUserName(username);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
