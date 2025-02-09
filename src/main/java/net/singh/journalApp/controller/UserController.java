@@ -59,7 +59,7 @@ public class UserController {
     @DeleteMapping("/{username}")
     public ResponseEntity<?> deleteByUserName2(@PathVariable String username) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userService.deleteByUserName(username);
+        userService.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
