@@ -32,7 +32,7 @@ public class UserController {
         User userInDB = userService.findByUsername(username);
         userInDB.setUsername(user.getUsername());
         userInDB.setPassword(user.getPassword());
-        userService.saveEntry(userInDB);
+        userService.saveNewEntry(userInDB);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -49,17 +49,11 @@ public class UserController {
 //        userRepository.deleteByUserName(authentication.getName());
 //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //    }
-//    @DeleteMapping
-//    public ResponseEntity<?> deleteByUserName() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        userService.deleteByUserName(authentication.getName());
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
 
     @DeleteMapping("/{username}")
     public ResponseEntity<?> deleteByUserName2(@PathVariable String username) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userService.deleteByUserName(authentication.getName());
+        userService.deleteByUserName(username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
