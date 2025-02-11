@@ -27,6 +27,18 @@ public class JournalEntryController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public ResponseEntity<?> getAllJournalEntriesForAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+
+        if (user != null && user.getJournalEntries() != null && !user.getJournalEntries().isEmpty()) {
+            return new ResponseEntity<>(user.getJournalEntries(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No journal entries found", HttpStatus.NOT_FOUND);
+    }
+
 
     @GetMapping("{username}")
     public ResponseEntity<?> getAllJournalEntriesOfuser(@PathVariable String username) {
@@ -37,6 +49,7 @@ public class JournalEntryController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 
     @PostMapping
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry) {
