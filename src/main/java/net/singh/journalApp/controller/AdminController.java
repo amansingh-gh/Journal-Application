@@ -20,8 +20,6 @@ public class AdminController {
 
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = authentication.getName();
         List<User> all = userService.getAll();
         if (all != null && !all.isEmpty()) {
             return new ResponseEntity<>(all, HttpStatus.OK);
