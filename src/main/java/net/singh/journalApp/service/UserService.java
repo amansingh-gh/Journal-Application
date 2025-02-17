@@ -20,40 +20,45 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public void saveNewEntry(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Arrays.asList("USER"));
-        userRepository.save(user);
+    public boolean saveNewEntry(User user) {
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public void saveAdminUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Arrays.asList("USER","ADMIN"));
-        userRepository.save(user);
-    }
+        public void saveAdminUser (User user){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole(Arrays.asList("USER", "ADMIN"));
+            userRepository.save(user);
+        }
 
-    public void saveUser(User user) {
-        userRepository.save(user);
-    }
+        public void saveUser (User user){
+            userRepository.save(user);
+        }
 
 
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
+        public List<User> getAll () {
+            return userRepository.findAll();
+        }
 
-    public Optional<User> findById(ObjectId id) {
-        return userRepository.findById(id);
-    }
+        public Optional<User> findById (ObjectId id){
+            return userRepository.findById(id);
+        }
 
-    public void deleteById(ObjectId id) {
-        userRepository.deleteById(id);
-    }
+        public void deleteById (ObjectId id){
+            userRepository.deleteById(id);
+        }
 
-    public void deleteByUserName(String username) {
-        userRepository.deleteByUsername(username);
-    }
+        public void deleteByUserName (String username){
+            userRepository.deleteByUsername(username);
+        }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        public User findByUsername (String username){
+            return userRepository.findByUsername(username);
+        }
     }
-}
