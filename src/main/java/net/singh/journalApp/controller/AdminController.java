@@ -18,6 +18,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    // Retrieves all user data
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers() {
         List<User> all = userService.getAll();
