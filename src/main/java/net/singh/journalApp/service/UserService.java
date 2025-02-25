@@ -23,7 +23,7 @@ public class UserService {
     public boolean saveNewEntry(User user) {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(Arrays.asList("USER"));
+            user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
             return true;
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class UserService {
 
         public void saveAdminUser (User user){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(Arrays.asList("USER", "ADMIN"));
+            user.setRoles(Arrays.asList("USER", "ADMIN"));
             userRepository.save(user);
         }
 
