@@ -1,6 +1,5 @@
 package net.singh.journalApp.controller;
 
-
 import net.singh.journalApp.entity.JournalEntry;
 import net.singh.journalApp.entity.User;
 import net.singh.journalApp.service.JournalEntryService;
