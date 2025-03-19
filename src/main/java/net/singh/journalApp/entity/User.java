@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
+@Document(collection = "users")
 public class User {
 
     @Id
